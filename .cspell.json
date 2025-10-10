@@ -1,0 +1,18 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "zeek",
+    "zksync",
+    "gwei",
+    "web3",
+    "defi",
+    "blockchain",
+    "crypto"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "package-lock.json",
+    "yarn.lock"
+  ]
+}

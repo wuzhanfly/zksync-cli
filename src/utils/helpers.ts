@@ -22,11 +22,33 @@ export const getAddressFromPrivateKey = (privateKey: string): string => {
 };
 
 export const getL1Provider = (url: string) => {
-  return new JsonRpcProvider(url);
+  // Create provider with explicit network configuration to disable EIP-1559
+  // This prevents "network does not support EIP-1559" errors on networks like BSC
+  const provider = new JsonRpcProvider(
+    url,
+    {
+      chainId: 97, // BSC testnet
+      name: "bsc-testnet",
+    },
+    {
+      staticNetwork: true,
+    }
+  );
+
+  // Handle self-signed certificates for development/testing
+  if (url.includes("localhost") || url.includes("127.0.0.1")) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  }
+
+  return provider;
 };
 
 export const getL2Provider = (rpc: string) => {
-  return new Provider(rpc);
+  const provider = new Provider(rpc, undefined, {
+    timeout: 30000, // 30 seconds timeout
+    retryLimit: 3,
+  });
+  return provider;
 };
 
 export const getL2Wallet = (privateKey: string, l2Provider: Provider, l1Provider?: JsonRpcProvider) => {

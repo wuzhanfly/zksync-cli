@@ -1,0 +1,17 @@
+gwei
+wei
+satoshi
+defi
+cefi
+web3
+blockchain
+cryptocurrency
+bitcoin
+ethereum
+bnb
+smartcontract
+dapp
+nft
+dao
+dex
+cex

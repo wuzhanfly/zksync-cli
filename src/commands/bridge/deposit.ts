@@ -119,15 +119,43 @@ export const handler = async (options: DepositOptions) => {
       }`
     );
 
+    // Check L1 balance before attempting deposit
+    const senderL1Balance = await getBalance(token.l1Address, senderWallet.address, l1Provider);
+    Logger.info(` L1 Balance: ${bigNumberToDecimal(senderL1Balance)} ${token.symbol}`);
+
+    if (senderL1Balance < decimalToBigNumber(options.amount)) {
+      throw new Error(
+        `Insufficient L1 balance. Required: ${options.amount} ${token.symbol}, Available: ${bigNumberToDecimal(senderL1Balance)} ${token.symbol}`
+      );
+    }
+
     const spinner = ora("Sending deposit...").start();
     try {
+      Logger.debug(`Attempting deposit with params:`, {
+        to: options.recipient,
+        token: token.l1Address,
+        amount: decimalToBigNumber(options.amount).toString(),
+        approveERC20: true,
+        approveBaseERC20: true,
+      });
+
       const depositHandle = await senderWallet.deposit({
         to: options.recipient,
         token: token.l1Address,
         amount: decimalToBigNumber(options.amount),
         approveERC20: true,
         approveBaseERC20: true,
+        overrides: {
+          type: 0, // Force legacy transaction type (non-EIP-1559)
+          maxFeePerGas: undefined,
+          maxPriorityFeePerGas: undefined,
+          gasPrice: "5000000000", // 2 gwei - use gasPrice for legacy transactions
+        },
       });
+
+      Logger.debug(`Deposit transaction sent, hash: ${depositHandle.hash}`);
+      spinner.text = "Waiting for L1 transaction confirmation...";
+
       await depositHandle.waitL1Commit(0);
       spinner.stop();
       Logger.info("\nDeposit sent:");
@@ -144,6 +172,25 @@ export const handler = async (options: DepositOptions) => {
       );
     } catch (error) {
       spinner.fail("Deposit failed");
+      Logger.debug(`Deposit error details:`, error);
+
+      if (error instanceof Error) {
+        if (error.message.includes("socket hang up")) {
+          Logger.error("Network connection error. This might be due to:");
+          Logger.error("1. L1 or L2 RPC endpoint is not responding");
+          Logger.error("2. Network timeout or connectivity issues");
+          Logger.error("3. Firewall or proxy blocking the connection");
+          Logger.error("\nTry:");
+          Logger.error("- Check if both RPC endpoints are accessible");
+          Logger.error("- Increase timeout or retry the operation");
+          Logger.error("- Use different RPC endpoints if available");
+        } else if (error.message.includes("insufficient funds")) {
+          Logger.error("Insufficient funds for the transaction");
+        } else if (error.message.includes("nonce")) {
+          Logger.error("Nonce-related error. Try again in a few moments.");
+        }
+      }
+
       throw error;
     }
 
