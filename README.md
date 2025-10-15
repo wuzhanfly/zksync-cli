@@ -44,9 +44,9 @@ You can run commands without installation: `npx zksync-cli`. For example: `npx z
 
 ```bash
 
-node bin/index.js bridge deposit --chain in-memory-node --amount 0.1 --to 0x2B9952Dfb901Acc336ac133a7bf270c8bCE2dff8 --pk f778138bf30a0e6eea7eba238c474f082bd0a149a38031c3bf8062fdbdaf80da --l1-rpc https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c --rpc http://localhost:3050
+node bin/index.js bridge deposit --chain in-memory-node --amount 0.1 --to 0x2B9952Dfb901Acc336ac133a7bf270c8bCE2dff8 --pk xxxxx --l1-rpc https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c --rpc http://localhost:3050
 
-node bin/index.js bridge withdraw-finalize --hash 0x2e014c843cd2160a024d8c390bb3f12754d485c634fec7cfac52b090f60de32a  --pk f778138bf30a0e6eea7eba238c474f082bd0a149a38031c3bf8062fdbdaf80da --l1-rpc https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c   --rpc http://127.0.0.1:3050
+node bin/index.js bridge withdraw-finalize --hash 0x2e014c843cd2160a024d8c390bb3f12754d485c634fec7cfac52b090f60de32a  --pk xxxx --l1-rpc https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c   --rpc http://127.0.0.1:3050
 
 Withdraw finalize:
  From chain: http://127.0.0.1:3050
