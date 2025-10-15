@@ -42,6 +42,33 @@ You can run commands without installation: `npx zksync-cli`. For example: `npx z
 
 ## 💻 Commands
 
+```json
+
+node bin/index.js bridge deposit --chain in-memory-node --amount 0.1 --to 0x2B9952Dfb901Acc336ac133a7bf270c8bCE2dff8 --pk f778138bf30a0e6eea7eba238c474f082bd0a149a38031c3bf8062fdbdaf80da --l1-rpc https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c --rpc http://localhost:3050
+
+node bin/index.js bridge withdraw-finalize --hash 0x2e014c843cd2160a024d8c390bb3f12754d485c634fec7cfac52b090f60de32a  --pk f778138bf30a0e6eea7eba238c474f082bd0a149a38031c3bf8062fdbdaf80da --l1-rpc https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c   --rpc http://127.0.0.1:3050
+
+Withdraw finalize:
+ From chain: http://127.0.0.1:3050
+ To chain:   https://rpc.ankr.com/bsc_testnet_chapel/a948b7471d1af62abb0a6a4af74da3d1b7616df9c666ff566a0d0a0433e7be5c
+ Withdrawal transaction (L2): 0x2e014c843cd2160a024d8c390bb3f12754d485c634fec7cfac52b090f60de32a
+ Finalizer address (L1):      0x69AC695BE0e9f67d9b2e933628039Af1E37f5840
+
+Checking status of the transaction...
+
+Withdrawal finalized:
+ Finalization transaction hash: 0x0240aaa4e4b08a8d16b48cbe4ffaee7ebe276a1b7d6a8e9bb6c96e27d1442d41
+
+Withdrawal finalization tx sent:
+ Finalization transaction hash: 0x0240aaa4e4b08a8d16b48cbe4ffaee7ebe276a1b7d6a8e9bb6c96e27d1442d41
+
+Waiting for finalization transaction to be mined...
+ Finalization transaction was mined in block 68294296
+
+Sender L1 balance after transaction: 0.220927351968612 ETH (Ether)
+
+```
+
 ### Local development commands
 `npx zksync-cli dev` - Manage local ZKsync development environment. It allows to easily start ZKsync stack locally, for example: local Ethereum and ZKsync nodes, Block Explorer, Wallet and Bridge.
 
